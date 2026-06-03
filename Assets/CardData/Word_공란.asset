@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af67ffdad1d0dc74ab17dc071cc742fb, type: 3}
+  m_Name: "Word_\uACF5\uB780"
+  m_EditorClassIdentifier: Assembly-CSharp::WordData
+  word: "\uACF5\uB780"
+  correctMeaning: "\uBE44\uC5B4\uC788\uB294 \uCE78"
+  wrongMeanings:
+  - "\uD2C0\uB9B0 \uCE78"
+  - "\uC911\uC694\uD55C \uCE78"
+  exampleSentence: "\uACF5\uB780(\u7A7A\u6B04)\uC73C\uB85C \uB450\uC138\uC694"
+  hint: 

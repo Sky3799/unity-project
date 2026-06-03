@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02b64d8ff1c782743a1554c6669e33fb, type: 3}
+  m_Name: "Card_\uACF5\uB780"
+  m_EditorClassIdentifier: Assembly-CSharp::CardData
+  cardName: "\uACF5\uB780"
+  category: 0
+  attackPower: 3
+  defensePower: 0
+  manaCost: 2
+  difficulty: 2
+  categoryIcon: {fileID: 0}
+  wordPool:
+  - {fileID: 11400000, guid: b87449d0109316b4b8b9bac5c9e78a43, type: 2}
