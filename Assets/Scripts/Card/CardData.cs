@@ -2,6 +2,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
+/// 카드 종류
+/// </summary>
+public enum CardType
+{
+    Quiz,        // 문제카드
+    TimeExtend,  // 시간연장카드
+    Heal         // 체력회복카드
+}
+
+/// <summary>
 /// 카드 카테고리 종류
 /// </summary>
 public enum CardCategory
@@ -21,6 +31,7 @@ public class CardData : ScriptableObject
 {
     [Header("기본 정보")]
     public string cardName;                     // 카드 이름
+    public CardType cardType = CardType.Quiz;   // 카드 종류
     public CardCategory category;               // 카테고리
 
     [Header("전투 수치")]

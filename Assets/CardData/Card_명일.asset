@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: "Card_\uBA85\uC77C"
   m_EditorClassIdentifier: Assembly-CSharp::CardData
   cardName: "\uBA85\uC77C"
+  cardType: 0
   category: 0
-  attackPower: 3
+  attackPower: 20
   defensePower: 0
   manaCost: 2
   difficulty: 1

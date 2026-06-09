@@ -27,7 +27,7 @@ public class QuizManager : MonoBehaviour
     /// </summary>
     /// <param name="cardData">사용된 카드 데이터</param>
     /// <param name="onComplete">정답 여부(bool)를 전달받는 콜백</param>
-    public void StartQuiz(CardData cardData, Action<bool> onComplete)
+    public void StartQuiz(CardData cardData, Action<bool> onComplete, float timeLimitOverride = 0f)
     {
         if (quizPopup == null)
         {
@@ -54,7 +54,7 @@ public class QuizManager : MonoBehaviour
         string correct = GetCorrectAnswer(type, word);
         string[] answers = BuildShuffledAnswers(type, word, correct);
 
-        quizPopup.ShowQuiz(cardData.cardName, question, answers, correct, onComplete);
+        quizPopup.ShowQuiz(cardData.cardName, question, answers, correct, word.word, word.exampleSentence, onComplete, timeLimitOverride);
     }
 
     // ─── 퀴즈 생성 내부 로직 ────────────────────────────────────────

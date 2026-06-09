@@ -55,27 +55,50 @@ public class Card : MonoBehaviour
         if (manaCostText != null)
             manaCostText.text = data.manaCost.ToString();
 
-        // 카테고리 이름
-        if (categoryNameText != null)
-            categoryNameText.text = data.category.ToString();
-
         // 카드 이름
         if (cardNameText != null)
             cardNameText.text = data.cardName;
 
-        // 공격/방어력 (둘 다 0이면 숨김)
-        if (powerText != null)
+        bool isSpecial = data.cardType == CardType.Heal || data.cardType == CardType.TimeExtend;
+
+        // 카테고리·난이도: 특수 카드는 숨김
+        if (categoryNameText != null)
         {
-            if (data.attackPower > 0)
-                powerText.text = "⚔ " + data.attackPower;
-            else if (data.defensePower > 0)
-                powerText.text = "🛡 " + data.defensePower;
-            else
-                powerText.text = "";
+            categoryNameText.gameObject.SetActive(!isSpecial);
+            if (!isSpecial) categoryNameText.text = data.category.ToString();
+        }
+        if (difficultyText != null)
+        {
+            difficultyText.gameObject.SetActive(!isSpecial);
+            if (!isSpecial) difficultyText.text = "Lv." + data.difficulty;
         }
 
-        if (difficultyText != null)
-            difficultyText.text = "Lv." + data.difficulty;
+        // powerText: 카드 타입별 표시
+        if (powerText != null)
+        {
+            switch (data.cardType)
+            {
+                case CardType.TimeExtend:
+                    powerText.text = $"다음 문제 +{data.attackPower}초";
+                    break;
+                case CardType.Heal:
+                    powerText.text = $"+{data.attackPower}HP";
+                    break;
+                default:
+                    if (data.attackPower > 0)       powerText.text = "피해 " + data.attackPower;
+                    else if (data.defensePower > 0) powerText.text = "DEF " + data.defensePower;
+                    else                            powerText.text = "";
+                    break;
+            }
+        }
+
+        // 카드 타입별 배경색
+        switch (data.cardType)
+        {
+            case CardType.TimeExtend: normalColor = new Color(0.6f, 0.85f, 1f); break;
+            case CardType.Heal:       normalColor = new Color(0.6f, 1f, 0.7f);  break;
+            default:                  normalColor = Color.white;                 break;
+        }
 
         // 상태 초기화
         SetState(CardState.Normal);

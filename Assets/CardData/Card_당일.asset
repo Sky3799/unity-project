@@ -13,11 +13,12 @@ MonoBehaviour:
   m_Name: "Card_\uB2F9\uC77C"
   m_EditorClassIdentifier: Assembly-CSharp::CardData
   cardName: "\uB2F9\uC77C"
+  cardType: 0
   category: 0
-  attackPower: 3
+  attackPower: 20
   defensePower: 0
   manaCost: 2
-  difficulty: 2
+  difficulty: 1
   categoryIcon: {fileID: 0}
   wordPool:
   - {fileID: 11400000, guid: 62c813e12e8359c4196ab456a0459680, type: 2}

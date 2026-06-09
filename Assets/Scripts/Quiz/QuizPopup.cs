@@ -38,11 +38,20 @@ public class QuizPopup : MonoBehaviour
     [SerializeField] private Color selectedCorrectBtnColor = new Color(0.3f, 0.9f, 0.4f);
     [SerializeField] private Color selectedWrongBtnColor = new Color(0.9f, 0.3f, 0.3f);
 
+    // 오답 발생 시 (원본단어, 예문, 정답) 를 전달하는 정적 이벤트
+    public static event Action<string, string, string> OnWrongAnswerRecorded;
+    // 정답 선택 직후 즉시 발동 (애니메이션용)
+    public static event Action<bool> OnAnswerSelectedImmediate;
+
     private Action<bool> onComplete;
     private string correctAnswer;
+    private string currentQuestion;
+    private string currentWord;
+    private string currentExampleSentence;
     private Coroutine timerCoroutine;
     private bool answered;
     private CanvasGroup overlayCanvasGroup;
+    private float activeTimeLimit;
 
     private void Awake()
     {
@@ -62,10 +71,14 @@ public class QuizPopup : MonoBehaviour
     /// 퀴즈 팝업을 열고 문제를 표시한다
     /// </summary>
     public void ShowQuiz(string cardName, string question, string[] answers,
-        string correct, Action<bool> callback)
+        string correct, string wordText, string exampleSentence, Action<bool> callback, float timeLimitOverride = 0f)
     {
+        activeTimeLimit = timeLimitOverride > 0f ? timeLimitOverride : timeLimit;
         answered = false;
         correctAnswer = correct;
+        currentQuestion = question;
+        currentWord = wordText;
+        currentExampleSentence = exampleSentence;
         onComplete = callback;
 
         SetOverlayVisible(true);
@@ -107,6 +120,9 @@ public class QuizPopup : MonoBehaviour
         if (timerCoroutine != null) StopCoroutine(timerCoroutine);
 
         bool isCorrect = answer == correctAnswer;
+        OnAnswerSelectedImmediate?.Invoke(isCorrect);   // 즉시 애니메이션 발동
+        if (!isCorrect)
+            OnWrongAnswerRecorded?.Invoke(currentWord, currentExampleSentence, correctAnswer);
         SetButtonColor(clickedButton, isCorrect ? selectedCorrectBtnColor : selectedWrongBtnColor);
 
         foreach (var btn in answerButtons)
@@ -146,12 +162,12 @@ public class QuizPopup : MonoBehaviour
     {
         float elapsed = 0f;
 
-        while (elapsed < timeLimit)
+        while (elapsed < activeTimeLimit)
         {
             elapsed += Time.deltaTime;
-            float ratio = 1f - (elapsed / timeLimit);
+            float ratio = 1f - (elapsed / activeTimeLimit);
             if (timerFillImage != null) timerFillImage.fillAmount = ratio;
-            if (timerText != null) timerText.text = Mathf.CeilToInt(timeLimit - elapsed).ToString();
+            if (timerText != null) timerText.text = Mathf.CeilToInt(activeTimeLimit - elapsed).ToString();
             yield return null;
         }
 
@@ -159,6 +175,8 @@ public class QuizPopup : MonoBehaviour
         if (!answered)
         {
             answered = true;
+            OnAnswerSelectedImmediate?.Invoke(false);
+            OnWrongAnswerRecorded?.Invoke(currentWord, currentExampleSentence, correctAnswer);
             foreach (var btn in answerButtons)
                 btn.interactable = false;
             ShowResult(false);

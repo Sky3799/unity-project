@@ -32,7 +32,7 @@ public class CardHand : MonoBehaviour
     private List<CardInteraction> cards = new List<CardInteraction>();
     private CardInteraction hoveredCard = null;
     private CardInteraction draggingCard = null;
-    private QuizManager quizManager;
+    private BattleManager battleManager;
     private CanvasGroup dropZoneCanvasGroup;
 
     private void Update()
@@ -43,7 +43,7 @@ public class CardHand : MonoBehaviour
 
     private void Awake()
     {
-        quizManager = FindFirstObjectByType<QuizManager>();
+        battleManager = FindFirstObjectByType<BattleManager>();
 
         if (dropZone != null)
         {
@@ -141,17 +141,16 @@ public class CardHand : MonoBehaviour
         draggingCard = null;
     }
 
-    /// <summary>카드가 드롭존에 드롭됨 — 카드 즉시 제거 후 퀴즈 시작</summary>
+    /// <summary>카드가 드롭존에 드롭됨 — 카드 즉시 제거 후 BattleManager에 전달</summary>
     public void OnCardUsed(CardInteraction interaction)
     {
         var card = interaction.GetComponent<Card>();
         if (card?.CardData == null) return;
 
         var cardData = card.CardData;
-        RemoveCard(interaction); // 문제 가림 방지: 카드 즉시 제거
+        RemoveCard(interaction);
 
-        if (quizManager != null)
-            quizManager.StartQuiz(cardData, (success) => { });
+        battleManager?.UseCard(cardData);
     }
 
     // ─── 정렬 ───────────────────────────────────────────────────────
